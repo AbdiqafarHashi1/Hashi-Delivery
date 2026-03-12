@@ -6,29 +6,34 @@ import { formatCurrency } from "@/lib/utils";
 
 export default function AdminItemsPage() {
   return (
-    <PageShell title="Items" links={adminLinks}>
+    <PageShell
+      title="Items"
+      description="Pricing, unit costs, and seller commissions."
+      currentPath="/admin/items"
+      links={adminLinks}
+    >
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle>Item Pricing & Commissions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="hidden overflow-x-auto sm:block">
+          <div className="hidden overflow-x-auto rounded-lg border sm:block">
             <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b text-left">
-                  <th className="py-2">Name</th>
-                  <th className="py-2">Selling Price</th>
-                  <th className="py-2">Unit Cost</th>
-                  <th className="py-2">Commission</th>
+              <thead className="bg-muted/40">
+                <tr className="text-left">
+                  <th className="px-3 py-2">Name</th>
+                  <th className="px-3 py-2">Selling Price</th>
+                  <th className="px-3 py-2">Unit Cost</th>
+                  <th className="px-3 py-2">Commission</th>
                 </tr>
               </thead>
               <tbody>
                 {defaultItems.map((item) => (
-                  <tr key={item.id} className="border-b last:border-b-0">
-                    <td className="py-2">{item.name}</td>
-                    <td>{formatCurrency(item.selling_price)}</td>
-                    <td>{formatCurrency(item.unit_cost)}</td>
-                    <td>{formatCurrency(item.seller_commission)}</td>
+                  <tr key={item.id} className="border-t last:border-b-0">
+                    <td className="px-3 py-2.5 font-medium">{item.name}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(item.selling_price)}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(item.unit_cost)}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(item.seller_commission)}</td>
                   </tr>
                 ))}
               </tbody>

@@ -4,15 +4,22 @@ import { adminLinks } from "@/lib/nav";
 
 export default function AdminProfitSharingPage() {
   return (
-    <PageShell title="Profit Sharing" links={adminLinks}>
+    <PageShell
+      title="Profit Sharing"
+      description="Reference formulas used for side-sales allocations."
+      currentPath="/admin/profit-sharing"
+      links={adminLinks}
+    >
       <Card>
-        <CardHeader><CardTitle>Rule Formula</CardTitle></CardHeader>
-        <CardContent className="space-y-1 text-sm">
-          <p>1) total_sales = sum(quantity × selling_price)</p>
-          <p>2) sadio_cut = sum(quantity × seller_commission)</p>
-          <p>3) post_commission_pool = total_sales - sadio_cut</p>
-          <p>4) gross shares = 50/50 split of post commission pool</p>
-          <p>5) total_cogs deducted only from restaurant side</p>
+        <CardHeader className="pb-2">
+          <CardTitle>Rule Formula</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm text-muted-foreground">
+          <p><span className="font-medium text-foreground">1)</span> total_sales = sum(quantity × selling_price)</p>
+          <p><span className="font-medium text-foreground">2)</span> sadio_cut = sum(quantity × seller_commission)</p>
+          <p><span className="font-medium text-foreground">3)</span> post_commission_pool = total_sales - sadio_cut</p>
+          <p><span className="font-medium text-foreground">4)</span> gross shares = 50/50 split of post commission pool</p>
+          <p><span className="font-medium text-foreground">5)</span> total_cogs deducted only from restaurant side</p>
         </CardContent>
       </Card>
     </PageShell>
