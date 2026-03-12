@@ -1,4 +1,5 @@
 import { PageShell } from "@/components/page-shell";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,106 +14,45 @@ const perItemRows = [
 ];
 
 const perDayRows = [
-  { date: "2026-03-10", totalSales: 7240, sadioCut: 728, handover: 6512 },
-  { date: "2026-03-11", totalSales: 6810, sadioCut: 694, handover: 6116 }
+  { date: "2026-03-10", totalSales: 7240, sadioCut: 728, handover: 6512, status: "Reviewed" },
+  { date: "2026-03-11", totalSales: 6810, sadioCut: 694, handover: 6116, status: "Pending" }
 ];
 
 export default function AdminReportsPage() {
   return (
-    <PageShell title="Reports" description="Compact sales breakdowns by item and by day." currentPath="/admin/reports" links={adminLinks}>
+    <PageShell title="Reports" description="Dense operational reporting with quick filters and review state." currentPath="/admin/reports" links={adminLinks}>
       <Card>
-        <CardHeader className="pb-2">
-          <CardTitle>Date Range</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label htmlFor="from">From</Label>
-              <Input id="from" type="date" className="h-10" />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="to">To</Label>
-              <Input id="to" type="date" className="h-10" />
-            </div>
-          </div>
+        <CardHeader><CardTitle>Filters</CardTitle></CardHeader>
+        <CardContent className="grid gap-3 sm:grid-cols-4">
+          <div><Label htmlFor="from">From</Label><Input id="from" type="date" /></div>
+          <div><Label htmlFor="to">To</Label><Input id="to" type="date" /></div>
+          <Button variant="outline" className="mt-6">Only mismatches</Button>
+          <Button className="mt-6">Apply Filters</Button>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="pb-2">
-          <CardTitle>Per-item Breakdown</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="hidden overflow-x-auto rounded-lg border sm:block">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/40">
-                <tr className="text-left">
-                  <th className="px-3 py-2">Item</th>
-                  <th className="px-3 py-2">Quantity</th>
-                  <th className="px-3 py-2">Sales</th>
-                </tr>
-              </thead>
-              <tbody>
-                {perItemRows.map((row) => (
-                  <tr key={row.item} className="border-t last:border-b-0">
-                    <td className="px-3 py-2.5 font-medium">{row.item}</td>
-                    <td className="px-3 py-2.5">{row.quantity}</td>
-                    <td className="px-3 py-2.5">{formatCurrency(row.sales)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="space-y-2 sm:hidden">
-            {perItemRows.map((row) => (
-              <div key={row.item} className="rounded-lg border p-3 text-sm">
-                <p className="font-medium">{row.item}</p>
-                <p className="text-muted-foreground">Quantity: {row.quantity}</p>
-                <p className="text-muted-foreground">Sales: {formatCurrency(row.sales)}</p>
-              </div>
-            ))}
-          </div>
+        <CardHeader><CardTitle>Per-item Breakdown</CardTitle></CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          {perItemRows.map((row) => (
+            <div key={row.item} className="flex items-center justify-between rounded-lg border border-border/60 bg-muted/30 p-3">
+              <p className="font-medium">{row.item}</p>
+              <p className="text-muted-foreground">Qty {row.quantity}</p>
+              <p className="font-semibold">{formatCurrency(row.sales)}</p>
+            </div>
+          ))}
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="pb-2">
-          <CardTitle>Per-day Breakdown</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="hidden overflow-x-auto rounded-lg border sm:block">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/40">
-                <tr className="text-left">
-                  <th className="px-3 py-2">Date</th>
-                  <th className="px-3 py-2">Total Sales</th>
-                  <th className="px-3 py-2">Sadio Cut</th>
-                  <th className="px-3 py-2">Handover</th>
-                </tr>
-              </thead>
-              <tbody>
-                {perDayRows.map((row) => (
-                  <tr key={row.date} className="border-t last:border-b-0">
-                    <td className="px-3 py-2.5 font-medium">{row.date}</td>
-                    <td className="px-3 py-2.5">{formatCurrency(row.totalSales)}</td>
-                    <td className="px-3 py-2.5">{formatCurrency(row.sadioCut)}</td>
-                    <td className="px-3 py-2.5">{formatCurrency(row.handover)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="space-y-2 sm:hidden">
-            {perDayRows.map((row) => (
-              <div key={row.date} className="rounded-lg border p-3 text-sm">
-                <p className="font-medium">{row.date}</p>
-                <p className="text-muted-foreground">Total Sales: {formatCurrency(row.totalSales)}</p>
-                <p className="text-muted-foreground">Sadio Cut: {formatCurrency(row.sadioCut)}</p>
-                <p className="text-muted-foreground">Handover: {formatCurrency(row.handover)}</p>
-              </div>
-            ))}
-          </div>
+        <CardHeader><CardTitle>Per-day Breakdown</CardTitle></CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          {perDayRows.map((row) => (
+            <div key={row.date} className="rounded-lg border border-border/60 bg-muted/30 p-3">
+              <div className="flex items-center justify-between"><p className="font-medium">{row.date}</p><span className="rounded-full border px-2 py-0.5 text-xs">{row.status}</span></div>
+              <p className="text-muted-foreground">Total {formatCurrency(row.totalSales)} · Sadio {formatCurrency(row.sadioCut)} · Handover {formatCurrency(row.handover)}</p>
+            </div>
+          ))}
         </CardContent>
       </Card>
     </PageShell>
