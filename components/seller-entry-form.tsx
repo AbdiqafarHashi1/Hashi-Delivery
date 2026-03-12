@@ -96,36 +96,40 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
   };
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader className="pb-2">
+    <div className="grid gap-4 lg:grid-cols-[1.45fr_1fr] lg:items-start">
+      <Card className="order-2 lg:order-1">
+        <CardHeader className="pb-3">
           <CardTitle>Today&apos;s Side Sales Entry</CardTitle>
           <CardDescription>Quick daily aggregate input for items and collections.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-5">
-          <div className="space-y-4">
+
+        <CardContent className="space-y-4">
+          <div className="space-y-2.5">
             {items.map((item) => {
               const quantity = quantities[item.id] ?? 0;
 
               return (
-                <div key={item.id} className="rounded-lg border p-3">
-                  <div className="mb-2 flex items-center justify-between">
-                    <Label htmlFor={item.id} className="text-base">
-                      {item.name}
-                    </Label>
-                    <span className="text-xs text-muted-foreground">Qty</span>
+                <div key={item.id} className="rounded-lg border bg-muted/20 px-2.5 py-2 sm:px-3">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div>
+                      <Label htmlFor={item.id} className="text-sm font-medium">
+                        {item.name}
+                      </Label>
+                      <p className="text-xs text-muted-foreground">
+                        Sell {formatCurrency(item.selling_price)} · Commission {formatCurrency(item.seller_commission)}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-[56px_1fr_56px] items-center gap-2">
+                  <div className="grid grid-cols-[40px_1fr_40px] items-center gap-2 sm:grid-cols-[44px_1fr_44px]">
                     <Button
                       type="button"
-                      size="lg"
                       variant="outline"
-                      className="h-14 px-0"
+                      className="h-10 px-0"
                       onClick={() => setQuantity(item.id, quantity - 1)}
                       aria-label={`Decrease ${item.name}`}
                     >
-                      <Minus className="h-5 w-5" />
+                      <Minus className="h-4 w-4" />
                     </Button>
                     <Input
                       id={item.id}
@@ -133,19 +137,18 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
                       min={0}
                       step={1}
                       inputMode="numeric"
-                      className="h-14 text-center text-2xl"
+                      className="h-10 text-center text-lg font-semibold"
                       value={quantity}
                       onChange={(event) => setQuantity(item.id, parseNonNegativeNumber(event.target.value))}
                     />
                     <Button
                       type="button"
-                      size="lg"
                       variant="outline"
-                      className="h-14 px-0"
+                      className="h-10 px-0"
                       onClick={() => setQuantity(item.id, quantity + 1)}
                       aria-label={`Increase ${item.name}`}
                     >
-                      <Plus className="h-5 w-5" />
+                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -153,63 +156,75 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
             })}
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="cash">Cash received</Label>
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="cash" className="text-xs uppercase tracking-wide text-muted-foreground">
+                Cash received
+              </Label>
               <Input
                 id="cash"
                 type="number"
                 min={0}
                 step={0.01}
                 inputMode="decimal"
-                className="h-12 text-lg"
+                className="h-10 font-medium"
                 value={cashReceived}
                 onChange={(event) => setCashReceived(parseNonNegativeNumber(event.target.value))}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="mpesa">M-Pesa received</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="mpesa" className="text-xs uppercase tracking-wide text-muted-foreground">
+                M-Pesa received
+              </Label>
               <Input
                 id="mpesa"
                 type="number"
                 min={0}
                 step={0.01}
                 inputMode="decimal"
-                className="h-12 text-lg"
+                className="h-10 font-medium"
                 value={mpesaReceived}
                 onChange={(event) => setMpesaReceived(parseNonNegativeNumber(event.target.value))}
               />
             </div>
           </div>
 
-          <Button size="lg" className="w-full" disabled={isSaving} onClick={handleSubmit}>
+          <Button className="h-10 w-full text-sm font-semibold" disabled={isSaving} onClick={handleSubmit}>
             {isSaving ? "Saving..." : "Save Daily Entry"}
           </Button>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle>Live Summary</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <div className="flex justify-between"><span>Total sales</span><strong>{formatCurrency(computed.totalSales)}</strong></div>
-          <div className="flex justify-between"><span>Sadio cut</span><strong>{formatCurrency(computed.sadioCut)}</strong></div>
-          <div className="flex justify-between"><span>Handover amount</span><strong>{formatCurrency(computed.handoverAmount)}</strong></div>
-          <div className="flex justify-between"><span>Cash entered</span><strong>{formatCurrency(cashReceived)}</strong></div>
-          <div className="flex justify-between"><span>M-Pesa entered</span><strong>{formatCurrency(mpesaReceived)}</strong></div>
-          <div className="flex justify-between border-t pt-2"><span>Collection difference</span><strong>{formatCurrency(collectionDifference)}</strong></div>
-        </CardContent>
-      </Card>
+      <div className="order-1 space-y-3 lg:order-2 lg:sticky lg:top-4">
+        <Card className="border-primary/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Live Summary</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            <div className="flex justify-between"><span>Total sales</span><strong>{formatCurrency(computed.totalSales)}</strong></div>
+            <div className="flex justify-between"><span>Sadio cut</span><strong>{formatCurrency(computed.sadioCut)}</strong></div>
+            <div className="flex justify-between"><span>Handover amount</span><strong>{formatCurrency(computed.handoverAmount)}</strong></div>
+            <div className="flex justify-between"><span>Cash entered</span><strong>{formatCurrency(cashReceived)}</strong></div>
+            <div className="flex justify-between"><span>M-Pesa entered</span><strong>{formatCurrency(mpesaReceived)}</strong></div>
+            <div className="mt-1 flex justify-between border-t pt-2">
+              <span>Collection difference</span>
+              <strong className={collectionDifference === 0 ? "text-emerald-600" : "text-destructive"}>
+                {formatCurrency(collectionDifference)}
+              </strong>
+            </div>
+          </CardContent>
+        </Card>
 
-      {collectionDifference !== 0 && (
-        <Alert className="border-destructive/30 bg-destructive/10 text-destructive">
-          Collection mismatch: {formatCurrency(collectionDifference)}. Cash + M-Pesa should equal total sales.
-        </Alert>
-      )}
+        {collectionDifference !== 0 && (
+          <Alert className="border-destructive/40 bg-destructive/10 text-destructive">
+            <p className="font-semibold">Collection mismatch</p>
+            <p className="text-sm">{formatCurrency(collectionDifference)}. Cash + M-Pesa should equal total sales.</p>
+          </Alert>
+        )}
 
-      {error && <Alert className="border-destructive/30 bg-destructive/10 text-destructive">{error}</Alert>}
-      {success && <Alert className="border-emerald-300 bg-emerald-50 text-emerald-700">{success}</Alert>}
+        {error && <Alert className="border-destructive/30 bg-destructive/10 text-destructive">{error}</Alert>}
+        {success && <Alert className="border-emerald-300 bg-emerald-50 text-emerald-700">{success}</Alert>}
+      </div>
     </div>
   );
 }

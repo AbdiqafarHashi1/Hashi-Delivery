@@ -19,45 +19,45 @@ const perDayRows = [
 
 export default function AdminReportsPage() {
   return (
-    <PageShell title="Reports" links={adminLinks}>
+    <PageShell title="Reports" description="Compact sales breakdowns by item and by day." currentPath="/admin/reports" links={adminLinks}>
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle>Date Range</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <Label htmlFor="from">From</Label>
-              <Input id="from" type="date" />
+              <Input id="from" type="date" className="h-10" />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <Label htmlFor="to">To</Label>
-              <Input id="to" type="date" />
+              <Input id="to" type="date" className="h-10" />
             </div>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle>Per-item Breakdown</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="hidden overflow-x-auto sm:block">
+          <div className="hidden overflow-x-auto rounded-lg border sm:block">
             <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b text-left">
-                  <th className="py-2">Item</th>
-                  <th className="py-2">Quantity</th>
-                  <th className="py-2">Sales</th>
+              <thead className="bg-muted/40">
+                <tr className="text-left">
+                  <th className="px-3 py-2">Item</th>
+                  <th className="px-3 py-2">Quantity</th>
+                  <th className="px-3 py-2">Sales</th>
                 </tr>
               </thead>
               <tbody>
                 {perItemRows.map((row) => (
-                  <tr key={row.item} className="border-b last:border-b-0">
-                    <td className="py-2">{row.item}</td>
-                    <td>{row.quantity}</td>
-                    <td>{formatCurrency(row.sales)}</td>
+                  <tr key={row.item} className="border-t last:border-b-0">
+                    <td className="px-3 py-2.5 font-medium">{row.item}</td>
+                    <td className="px-3 py-2.5">{row.quantity}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(row.sales)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -77,33 +77,32 @@ export default function AdminReportsPage() {
       </Card>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle>Per-day Breakdown</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="hidden overflow-x-auto sm:block">
+          <div className="hidden overflow-x-auto rounded-lg border sm:block">
             <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b text-left">
-                  <th className="py-2">Date</th>
-                  <th className="py-2">Total Sales</th>
-                  <th className="py-2">Sadio Cut</th>
-                  <th className="py-2">Handover</th>
+              <thead className="bg-muted/40">
+                <tr className="text-left">
+                  <th className="px-3 py-2">Date</th>
+                  <th className="px-3 py-2">Total Sales</th>
+                  <th className="px-3 py-2">Sadio Cut</th>
+                  <th className="px-3 py-2">Handover</th>
                 </tr>
               </thead>
               <tbody>
                 {perDayRows.map((row) => (
-                  <tr key={row.date} className="border-b last:border-b-0">
-                    <td className="py-2">{row.date}</td>
-                    <td>{formatCurrency(row.totalSales)}</td>
-                    <td>{formatCurrency(row.sadioCut)}</td>
-                    <td>{formatCurrency(row.handover)}</td>
+                  <tr key={row.date} className="border-t last:border-b-0">
+                    <td className="px-3 py-2.5 font-medium">{row.date}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(row.totalSales)}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(row.sadioCut)}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(row.handover)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
           <div className="space-y-2 sm:hidden">
             {perDayRows.map((row) => (
               <div key={row.date} className="rounded-lg border p-3 text-sm">

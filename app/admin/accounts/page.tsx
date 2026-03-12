@@ -9,44 +9,44 @@ export default function AdminAccountsPage() {
   const balances = computeAccountBalances(demoAccountTransactions);
 
   return (
-    <PageShell title="Accounts" links={adminLinks}>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <PageShell title="Accounts" description="Current balances and account movement history." currentPath="/admin/accounts" links={adminLinks}>
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
         <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Cash Balance</CardTitle></CardHeader>
-          <CardContent><p className="text-xl font-semibold">{formatCurrency(balances.cash)}</p></CardContent>
+          <CardHeader className="pb-1.5"><CardTitle className="text-xs uppercase tracking-wide text-muted-foreground">Cash Balance</CardTitle></CardHeader>
+          <CardContent><p className="text-2xl font-semibold tracking-tight">{formatCurrency(balances.cash)}</p></CardContent>
         </Card>
         <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">M-Pesa Balance</CardTitle></CardHeader>
-          <CardContent><p className="text-xl font-semibold">{formatCurrency(balances.mpesa)}</p></CardContent>
+          <CardHeader className="pb-1.5"><CardTitle className="text-xs uppercase tracking-wide text-muted-foreground">M-Pesa Balance</CardTitle></CardHeader>
+          <CardContent><p className="text-2xl font-semibold tracking-tight">{formatCurrency(balances.mpesa)}</p></CardContent>
         </Card>
         <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Balance</CardTitle></CardHeader>
-          <CardContent><p className="text-xl font-semibold">{formatCurrency(balances.total)}</p></CardContent>
+          <CardHeader className="pb-1.5"><CardTitle className="text-xs uppercase tracking-wide text-muted-foreground">Total Balance</CardTitle></CardHeader>
+          <CardContent><p className="text-2xl font-semibold tracking-tight">{formatCurrency(balances.total)}</p></CardContent>
         </Card>
       </div>
 
       <Card>
-        <CardHeader><CardTitle>Account Transaction History</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle>Account Transaction History</CardTitle></CardHeader>
         <CardContent>
-          <div className="hidden overflow-x-auto sm:block">
+          <div className="hidden overflow-x-auto rounded-lg border sm:block">
             <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b text-left">
-                  <th className="py-2">Date</th>
-                  <th className="py-2">Account</th>
-                  <th className="py-2">Direction</th>
-                  <th className="py-2">Amount</th>
-                  <th className="py-2">Notes</th>
+              <thead className="bg-muted/40">
+                <tr className="text-left">
+                  <th className="px-3 py-2">Date</th>
+                  <th className="px-3 py-2">Account</th>
+                  <th className="px-3 py-2">Direction</th>
+                  <th className="px-3 py-2">Amount</th>
+                  <th className="px-3 py-2">Notes</th>
                 </tr>
               </thead>
               <tbody>
                 {demoAccountTransactions.map((tx) => (
-                  <tr key={tx.id} className="border-b last:border-b-0">
-                    <td className="py-2">{tx.transaction_date}</td>
-                    <td className="uppercase">{tx.account}</td>
-                    <td>{tx.direction}</td>
-                    <td>{formatCurrency(tx.amount)}</td>
-                    <td>{tx.notes || "-"}</td>
+                  <tr key={tx.id} className="border-t last:border-b-0">
+                    <td className="px-3 py-2.5 font-medium">{tx.transaction_date}</td>
+                    <td className="px-3 py-2.5 uppercase">{tx.account}</td>
+                    <td className="px-3 py-2.5">{tx.direction}</td>
+                    <td className="px-3 py-2.5">{formatCurrency(tx.amount)}</td>
+                    <td className="px-3 py-2.5">{tx.notes || "-"}</td>
                   </tr>
                 ))}
               </tbody>
