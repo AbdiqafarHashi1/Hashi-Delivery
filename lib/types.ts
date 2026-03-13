@@ -28,29 +28,26 @@ export type SellerEntryItemInput = {
   commission: number;
 };
 
-export type DailyEntryComputed = {
-  totalSales: number;
-  sadioCut: number;
-  postCommissionPool: number;
-  restaurantGrossShare: number;
-  partnerGrossShare: number;
-  totalCogs: number;
-  restaurantNetShare: number;
-  partnerFinalShare: number;
-  handoverAmount: number;
+export type DailyFinancialSummary = {
+  total_sales: number;
+  total_cogs: number;
+  net_profit: number;
+  restaurant_share: number;
+  abdiqafar_share: number;
+  shafie_share: number;
 };
 
 export type SellerEntryComputed = {
   totalSales: number;
-  sadioCut: number;
+  sellerCommission: number;
   handoverAmount: number;
 };
 
-export type AccountType = "cash" | "mpesa";
+export type AccountOwner = "restaurant" | "abdiqafar" | "shafie";
 
 export type AccountTransaction = {
   id: string;
-  account: AccountType;
+  account_owner: AccountOwner;
   amount: number;
   direction: "inflow" | "outflow" | "adjustment";
   transaction_date: string;

@@ -26,7 +26,7 @@ export function EntryHistoryClient() {
             </div>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4 sm:text-sm">
-            <div className="rounded-lg border border-border/60 bg-muted/30 p-2"><p className="uppercase tracking-wide text-muted-foreground">Sadio commission</p><p className="font-semibold">{formatCurrency(row.sadio_cut)}</p></div>
+            <div className="rounded-lg border border-border/60 bg-muted/30 p-2"><p className="uppercase tracking-wide text-muted-foreground">Seller commission</p><p className="font-semibold">{formatCurrency(row.seller_commission)}</p></div>
             <div className="rounded-lg border border-border/60 bg-muted/30 p-2"><p className="uppercase tracking-wide text-muted-foreground">Handover</p><p className="font-semibold">{formatCurrency(row.handover_amount)}</p></div>
             <div className="rounded-lg border border-border/60 bg-muted/30 p-2"><p className="uppercase tracking-wide text-muted-foreground">Cash</p><p className="font-semibold">{formatCurrency(row.cash_received)}</p></div>
             <div className="rounded-lg border border-border/60 bg-muted/30 p-2"><p className="uppercase tracking-wide text-muted-foreground">M-Pesa</p><p className="font-semibold">{formatCurrency(row.mpesa_received)}</p></div>

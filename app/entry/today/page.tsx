@@ -1,6 +1,5 @@
 import { PageShell } from "@/components/page-shell";
-import { SellerEntryForm } from "@/components/seller-entry-form";
-import { sellerVisibleItems } from "@/lib/seller-demo-data";
+import { SellerEntryPageClient } from "@/components/seller-entry-page-client";
 
 export default function EntryTodayPage() {
   return (
@@ -13,7 +12,7 @@ export default function EntryTodayPage() {
         { href: "/entry/history", label: "History" }
       ]}
     >
-      <SellerEntryForm items={sellerVisibleItems} />
+      <SellerEntryPageClient />
     </PageShell>
   );
 }
