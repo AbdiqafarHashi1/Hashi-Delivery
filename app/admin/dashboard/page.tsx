@@ -1,6 +1,7 @@
-import { CheckCircle2, Lock, Unlock } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
+import { AdminDashboardClient } from "@/components/admin-dashboard-client";
 import { PageShell } from "@/components/page-shell";
-import { Button } from "@/components/ui/button";
+import { RecentActivityCard } from "@/components/recent-activity-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { adminLinks } from "@/lib/nav";
 import { formatCurrency } from "@/lib/utils";
@@ -24,42 +25,10 @@ export default function AdminDashboardPage() {
         ))}
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.35fr_1fr]">
-        <Card>
-          <CardHeader><CardTitle>Quick Actions</CardTitle></CardHeader>
-          <CardContent className="grid gap-2 sm:grid-cols-2">
-            <Button><Lock className="mr-2 h-4 w-4" /> Lock Today Entries</Button>
-            <Button variant="outline"><Unlock className="mr-2 h-4 w-4" /> Reopen Entry</Button>
-            <Button variant="outline">Mark Day Reviewed</Button>
-            <Button variant="outline">Post Manual Account Adjustment</Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader><CardTitle>Unresolved Mismatch</CardTitle></CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3">
-              <p className="font-semibold">2026-03-11 · Sadio</p>
-              <p className="text-muted-foreground">Difference: {formatCurrency(-140)} · Waiting review note.</p>
-            </div>
-            <Button variant="outline" className="w-full">Open Mismatch Queue</Button>
-          </CardContent>
-        </Card>
-      </section>
+      <AdminDashboardClient />
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <Card>
-          <CardHeader><CardTitle>Recent Activity</CardTitle></CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            {[
-              "Hashi locked entries for 2026-03-10",
-              "Sadio entry marked reviewed by Hashi",
-              "Manual expense posted: Marketing"
-            ].map((event) => (
-              <div key={event} className="rounded-lg border border-border/60 bg-muted/30 px-3 py-2">{event}</div>
-            ))}
-          </CardContent>
-        </Card>
+        <RecentActivityCard />
 
         <Card>
           <CardHeader><CardTitle>Seller + Share Snapshot</CardTitle></CardHeader>
