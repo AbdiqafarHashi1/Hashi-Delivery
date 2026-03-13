@@ -36,7 +36,8 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
   }, []);
 
   const todayEntry = ledgerState.entries.find((entry) => entry.entry_date === today);
-  const isEditable = !todayEntry || todayEntry.entry_status === "open" || todayEntry.entry_status === "reopened";
+  const entry = todayEntry ?? null;
+  const isEditable = !entry || entry?.entry_status === "open" || entry?.entry_status === "reopened";
 
   const rows = items.map((item) => ({
     itemId: item.id,
@@ -48,6 +49,7 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
 
   const computed = useMemo(() => computeSellerEntrySummary(rows), [rows]);
   const collectionDifference = Number((cashReceived + mpesaReceived - computed.totalSales).toFixed(2));
+  const existingCollectionDifference = entry?.collection_difference ?? 0;
 
   const setQuantity = (itemId: string, value: number) => setQuantities((prev) => ({ ...prev, [itemId]: Math.max(0, Math.floor(value)) }));
 
@@ -82,7 +84,7 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
       <Card className="order-2 xl:order-1">
         <CardHeader className="pb-3">
           <CardTitle>Today&apos;s Side Sales Entry</CardTitle>
-          <CardDescription className="flex items-center gap-2">Compact entry rows for fast shift-end posting. {todayEntry ? <StatusBadge status={todayEntry.entry_status} /> : <StatusBadge status="open" />}</CardDescription>
+          <CardDescription className="flex items-center gap-2">Compact entry rows for fast shift-end posting. {entry ? <StatusBadge status={entry?.entry_status} /> : <StatusBadge status="open" />}</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -119,6 +121,13 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
       </Card>
 
       <div className="order-1 space-y-3 xl:order-2 xl:sticky xl:top-4">
+        {!entry && (
+          <Card>
+            <CardContent className="pt-6">
+              <p className="text-sm text-muted-foreground">No entry yet for today.</p>
+            </CardContent>
+          </Card>
+        )}
         <Card className="border-primary/35">
           <CardHeader className="pb-2"><CardTitle className="text-base">Live Summary</CardTitle></CardHeader>
           <CardContent className="space-y-2 text-sm">
@@ -130,10 +139,10 @@ export function SellerEntryForm({ items }: { items: SellerVisibleItem[] }) {
           </CardContent>
         </Card>
 
-        {todayEntry?.collection_difference !== 0 && !todayEntry.mismatch_resolved_at && (
+        {existingCollectionDifference !== 0 && !entry?.mismatch_resolved_at && (
           <Alert className="border-destructive/40 bg-destructive/15 text-destructive"><p className="mb-1 flex items-center gap-2 font-semibold"><AlertTriangle className="h-4 w-4" />Mismatch pending review</p><p className="text-sm">Admin review is pending for this entry.</p></Alert>
         )}
-        {!isEditable && <Alert className="border-amber-500/40 bg-amber-900/30 text-amber-100">Entry is currently not editable ({todayEntry?.entry_status}).</Alert>}
+        {!isEditable && <Alert className="border-amber-500/40 bg-amber-900/30 text-amber-100">Entry is currently not editable ({entry?.entry_status}).</Alert>}
         {collectionDifference !== 0 && isEditable && <Alert className="border-destructive/40 bg-destructive/15 text-destructive"><p className="mb-1 flex items-center gap-2 font-semibold"><AlertTriangle className="h-4 w-4" /> Collection mismatch</p><p className="text-sm">Cash + M-Pesa should match total sales exactly before save.</p></Alert>}
         {error && <Alert className="border-destructive/30 bg-destructive/10 text-destructive">{error}</Alert>}
         {success && <Alert className="border-emerald-500/40 bg-emerald-900/30 text-emerald-300">{success}</Alert>}
